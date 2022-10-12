@@ -1,0 +1,27 @@
+<% if @conversations.present? %>
+<div class="bg-blue-100 border-aqua p-2">
+	<div><h2>Conversations</h2></div>
+  <% @conversations.each do |conversation| %>
+  <div class="truncate
+  ">
+    <%= link_to conversation.recipient.username, conversation_path(conversation), class: 'inline-block bg-teal-600 hover:bg-teal-800 text-white mt-4 rounded px-2 py-1' %>
+  </div>
+  <% end %>
+</div>
+<% else %>
+  <p>There are no Conversations available.</p>
+<% end%>
+
+<% if @users.present? %>
+<div class="bg-blue-100 border-aqua p-2">
+	<div><h2>Users</h2></div>
+  <% @users.each do |user| %>
+  <div class="truncate
+  ">
+    <%= link_to user.username, conversations_path(:user_id => user.id), :method => :post, class: 'inline-block bg-teal-600 hover:bg-teal-800 text-white mt-4 rounded px-2 py-1' %>
+  </div>
+  <% end %>
+</div>
+<% else %>
+  <p>There are no Users available.</p>
+<% end%>
