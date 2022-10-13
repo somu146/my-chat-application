@@ -3,9 +3,9 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["message"];
+  static targets = ["body"];
 
   onPostSuccess(event) {
-    this.messageTarget.value = "";
+    this.bodyTarget.value = "";
   }
 }

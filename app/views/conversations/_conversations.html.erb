@@ -4,7 +4,7 @@
   <% @conversations.each do |conversation| %>
   <div class="truncate
   ">
-    <%= link_to conversation.recipient.username, conversation_path(conversation), class: 'inline-block bg-teal-600 hover:bg-teal-800 text-white mt-4 rounded px-2 py-1' %>
+    <%= link_to conversation.opposed_user(current_user).username, conversation_path(conversation), class: 'inline-block bg-teal-600 hover:bg-teal-800 text-white mt-4 rounded px-2 py-1' %>
   </div>
   <% end %>
 </div>

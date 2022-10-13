@@ -4,13 +4,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 $(document).on("turbolinks:load", function() {
-  var $element = $('[data-channel-subscribe="room"]');
-  var room_id = $element.data("room-id");
+  var $element = $('[data-channel-subscribe="conversation"]');
+  var conversation_id = $element.data("conversation-id");
 
   consumer.subscriptions.create(
     {
       channel: "RoomChannel",
-      room: room_id
+      conversation: conversation_id
     },
 
     {
@@ -24,6 +24,7 @@ $(document).on("turbolinks:load", function() {
       },
 
       received(data) {
+        console.log(data);
         var content = `<div class="flex items-center m-2">
             <div class="p-3 rounded-full bg-teal-200">
               <img src="${
@@ -37,7 +38,7 @@ $(document).on("turbolinks:load", function() {
                 }</small>
               </div>
             <div data-role="message-text" class="text-base">${
-              data.message
+              data.body
             }</div>
               <div class="text-sm text-right">
                 <small class="leading-tight text-gray-600" data-role="message-date">${dayjs(

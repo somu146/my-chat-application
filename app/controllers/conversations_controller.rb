@@ -1,10 +1,9 @@
 class ConversationsController < ApplicationController
   before_action :load_conversation, only: %i[show edit update]
-  before_action :load_conversations, only: %i[show]
+  before_action :load_conversations, only: %i[show index]
 
   def index
     @users = User.all.where.not(id: current_user)
-    @conversations = Conversation.all.where.not(recipient_id: current_user.id)
   end
 
   def create
@@ -22,7 +21,6 @@ class ConversationsController < ApplicationController
 
   def show
     @users = User.all.where.not(id: current_user)
-    @conversations = Conversation.all.where.not(recipient_id: current_user.id)
     @message = Message.new conversation: @conversation
     @messages = @conversation.messages.includes(:user)
   end
@@ -34,7 +32,7 @@ class ConversationsController < ApplicationController
     end
 
     def load_conversations
-      @conversations = Conversation.all
+      @conversations = Conversation.where(recipient_id: current_user.id).or(Conversation.where(sender_id: current_user.id))
     end
 
     def check_conversation?
@@ -45,8 +43,4 @@ class ConversationsController < ApplicationController
         false
       end
     end
-
-    # def room_params
-    #   params.require(:conversation).permit(:name)
-    # end
 end

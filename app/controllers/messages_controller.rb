@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
         conversation: @conversation,
         body: params.dig(:message, :body)
       )
-    # RoomChannel.broadcast_to @room, @room_message
+    RoomChannel.broadcast_to @conversation, @message
     head :ok
   end
 
