@@ -4,13 +4,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 $(document).on("turbolinks:load", function() {
-  var $element = $('[data-channel-subscribe="conversation"]');
-  var conversation_id = $element.data("conversation-id");
+  var $element = $('[data-channel-subscribe="group"]');
+  var group_id = $element.data("group-id");
 
   consumer.subscriptions.create(
     {
-      channel: "RoomChannel",
-      conversation: conversation_id
+      channel: "GroupChannel",
+      group: group_id
     },
 
     {

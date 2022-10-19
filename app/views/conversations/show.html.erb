@@ -14,10 +14,10 @@
         <div class="chat" data-channel-subscribe="conversation" data-conversation-id="<%= @conversation.id %>">
           <% @messages.each do |message| %>
             <div data-role="message-template" class="flex items-center m-2">
-              <div class="p-3 rounded-full bg-teal-200">
+              <div class="p-3 rounded-full bg-teal-200 msg-<%= message.user.id %>">
                 <img src="<%= message.user.gravatar_url %>" class="h-8 w-8 rounded-full object-cover object-fit" alt="Profile" />
               </div>     
-              <div class="ml-1 w-full p-2 rounded-lg bg-teal-200 text-gray-900">
+              <div class="ml-1 w-full p-2 rounded-lg bg-teal-200 text-gray-900 msg-<%= message.user.id %>">
               <div class="text-sm text-right">
                   <small class="uppercase leading-tight text-gray-600" data-role="message-date"><%= message.user.username %></small>
                 </div>

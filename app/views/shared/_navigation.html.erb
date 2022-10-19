@@ -3,6 +3,15 @@
     <div>
       <%= link_to 'My Chat Application', root_url, class: 'font-bold text-gray-500 hover:text-white text-xl tracking-tight'%>
     </div>
+    <% if current_user.present? %>
+      <div>
+        <%= link_to 'Conversations', conversations_path, class: 'font-bold text-gray-500 hover:text-white text-xl tracking-tight'%>
+      </div>
+
+      <div>
+        <%= link_to 'Groups', groups_path, class: 'font-bold text-gray-500 hover:text-white text-xl tracking-tight'%>
+      </div>
+    <% end %>
 
     <div>
     <% if current_user %>
