@@ -10,9 +10,11 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <style type="text/css">
-    .msg-<%= current_user.id %>{
-      background: #7cdeab!important;
-    }
+    <% if current_user.present? %>
+      .msg-<%= current_user.id %>{
+        background: #7cdeab!important;
+      }
+    <% end %>
   </style>
   <body class="text-gray-800 bg-gray-600">
     <%= render 'shared/navigation' %>
