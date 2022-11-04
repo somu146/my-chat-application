@@ -1,44 +1,61 @@
-<div class="flex">
-  <div class="w-1/4 px-2 py-2 m-1 rounded-lg shadow-md bg-white">
-    <%= render 'groups' %>
+<% if @error.present? %>
+  <div class="bg-teal-100 overflow-hidden overflow-y-scroll relative h-full w-full text-teal-900 border-lg rounded p-2">
+    <h1 class="text-2xl text-center text-gray-800 font-bold"><%= @error %></h1>
   </div>
-  
-  <div class="flex flex-col w-3/4">
-    <div class=" px-4 py-2 m-1 rounded-lg shadow-md bg-white">
-      <div class="bg-teal-100 overflow-hidden overflow-y-scroll relative h-full w-full text-teal-900 border-lg rounded p-2">
-        <h1 class="text-2xl text-center text-gray-800 font-bold"><%= @group.name %></h1>
-        <hr />
-        <div class="chat" data-channel-subscribe="group" data-group-id="<%= @group.id %>">
-          <% if @group_messages.present?%>
-            <% @group_messages.each do |message| %>
-              <div data-role="message-template" class="flex items-center m-2">
-                <div class="p-3 rounded-full bg-teal-200 msg-<%= message.user.id %>">
-                  <img src="<%= message.user.gravatar_url %>" class="h-8 w-8 rounded-full object-cover object-fit" alt="Profile" />
-                </div>     
-                <div class="ml-1 w-full p-2 rounded-lg bg-teal-200 text-gray-900 msg-<%= message.user.id %>">
-                <div class="text-sm text-right" >
-                    <small class="uppercase leading-tight text-gray-600" data-role="message-date"><%= message.user.username %></small>
-                  </div>
-                  <div data-role="message-text" class="text-base text-gray-800"><%= message.body %></div>
-                  <div class="text-sm text-right">
-                    <small class="leading-tight text-gray-600" data-role="message-date"><%= time_ago_in_words(message.created_at) %></small>
-                  </div>
-                </div>
-              </div>
-            <% end %>
+<% else %>
+  <div class="flex">
+    <div class="w-1/4 px-2 py-2 m-1 rounded-lg shadow-md bg-white">
+      <%#= render 'groups' %>
+      <% if @participants.present? %>
+        <div class="bg-blue-100 border-aqua p-2">
+          <div><strong><h2>Users</h2></strong></div>
+          <% @participants.each do |participant| %>
+            <div class="truncate
+            ">
+              <h3><%= participant.user.username rescue nil %></h3>
+            </div>
           <% end %>
         </div>
-        <hr />
-      </div>
+      <% end%>
     </div>
-    <div class="px-4 py-2 m-1 rounded-lg shadow-md bg-white">
-      <%= form_for @message, remote: true, data: { controller: 'message', action: 'ajax:success->message#onPostSuccess' }, html: {class: 'w-full'} do |f| %>
-      <div class="flex mb-1 w-full">
-          <%= f.text_field :body, autofocus: true, data: { target: 'message.body' }, class: 'w-full shadow appearance-none rounded border px-3 py-3 text-white  focus:outline-none focus:shadow-outline bg-gray-700 font-bold', placeholder: 'type you message....' %>
-          <%= f.submit 'Send', class: 'shadow bg-teal-700 ml-auto hover:bg-teal-900 hover:shadow-xl focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded' %>
-          <%= f.hidden_field :group_id, as: :hidden %>
+    
+    <div class="flex flex-col w-3/4">
+      <div class=" px-4 py-2 m-1 rounded-lg shadow-md bg-white">
+        <div class="bg-teal-100 overflow-hidden overflow-y-scroll relative h-full w-full text-teal-900 border-lg rounded p-2">
+          <h1 class="text-2xl text-center text-gray-800 font-bold"><%= @group.name %></h1>
+          <hr />
+          <div class="chat" data-channel-subscribe="group" data-group-id="<%= @group.id %>">
+            <% if @group_messages.present?%>
+              <% @group_messages.each do |message| %>
+                <div data-role="message-template" class="flex items-center m-2">
+                  <div class="p-3 rounded-full bg-teal-200 msg-<%= message.user.id %>">
+                    <img src="<%= message.user.gravatar_url %>" class="h-8 w-8 rounded-full object-cover object-fit" alt="Profile" />
+                  </div>     
+                  <div class="ml-1 w-full p-2 rounded-lg bg-teal-200 text-gray-900 msg-<%= message.user.id %>">
+                  <div class="text-sm text-right" >
+                      <small class="uppercase leading-tight text-gray-600" data-role="message-date"><%= message.user.username %></small>
+                    </div>
+                    <div data-role="message-text" class="text-base text-gray-800"><%= message.body %></div>
+                    <div class="text-sm text-right">
+                      <small class="leading-tight text-gray-600" data-role="message-date"><%= time_ago_in_words(message.created_at) %></small>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <hr />
+        </div>
       </div>
-      <% end %>
+      <div class="px-4 py-2 m-1 rounded-lg shadow-md bg-white">
+        <%= form_for @message, remote: true, data: { controller: 'message', action: 'ajax:success->message#onPostSuccess' }, html: {class: 'w-full'} do |f| %>
+        <div class="flex mb-1 w-full">
+            <%= f.text_field :body, autofocus: true, data: { target: 'message.body' }, class: 'w-full shadow appearance-none rounded border px-3 py-3 text-white  focus:outline-none focus:shadow-outline bg-gray-700 font-bold', placeholder: 'type you message....' %>
+            <%= f.submit 'Send', class: 'shadow bg-teal-700 ml-auto hover:bg-teal-900 hover:shadow-xl focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded' %>
+            <%= f.hidden_field :group_id, as: :hidden %>
+        </div>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
+<% end %>

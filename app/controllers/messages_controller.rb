@@ -17,7 +17,9 @@ class MessagesController < ApplicationController
           group: @group,
           body: params.dig(:message, :body)
         )
-      GroupChannel.broadcast_to @group, @message
+      if @message.save
+        GroupChannel.broadcast_to @group, @message
+      end
     end
     head :ok
   end

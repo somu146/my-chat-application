@@ -10,6 +10,8 @@ class User < ApplicationRecord
          omniauth_providers: %i[github google_oauth2]
   validates :username, uniqueness: true, presence: true
   has_many :messages
+  has_many :participants, dependent: :destroy
+  has_many :groups, through: :participants
 
   def gravatar_url
     gravatar_id = Digest::MD5.hexdigest(email).downcase
